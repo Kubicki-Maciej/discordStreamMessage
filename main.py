@@ -2,7 +2,8 @@ import discord
 from discord.ext import commands
 from bot_token import token
 from users import load_ids, save_ids
-global w
+
+path_ids = 'E:\_DISCORD\DiscordMessager\ids.json'
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -37,32 +38,27 @@ async def on_message(message):
         return
     if message.content.startswith('!add_me_to_stream'):
         user = message.author
-        list_of_ids = load_ids('ids.json')
+        list_of_ids = load_ids(path_ids)
         if user.id in list_of_ids:
             print('user is in list')
             await user.send('User alredy in stream list')
         else:
             list_of_ids.append(user.id)
-            save_ids('ids.json', list_of_ids)
+            save_ids(path_ids, list_of_ids)
             await user.send('User added to stream list')
         
-def send_message_to_all_booked_users():
-
-    pass
-
 
 @client.event
 async def on_ready():
     # load users
-    await client.wait_until_ready()
-    
-    list_of_ids = load_ids('ids.json')
-    print(list_of_ids)
-    if list_of_ids:
-        print('jest lista')
-    if list_of_ids:
+    await client.wait_until_ready()    
+    list_of_ids = load_ids(path_ids)
+    print(list_of_ids) 
+    if list_of_ids:        
         for user_id in list_of_ids:
             user = client.get_user(user_id)
             await user.send("stream is on") 
+
+    quit()
 
 client.run(token=token)
