@@ -15,10 +15,6 @@ intents.members = True
 
 client = commands.Bot(intents=intents, command_prefix='/')
 
-
-
-
-
 @client.event
 async def on_ready():
     print('________________')
@@ -49,7 +45,7 @@ async def on_message(message):
             list_of_ids.append(user.id)
             save_ids('ids.json', list_of_ids)
             await user.send('User added to stream list')
-
+        
 def send_message_to_all_booked_users():
 
     pass
@@ -57,7 +53,7 @@ def send_message_to_all_booked_users():
 
 @client.event
 async def on_ready():
-    
+    # load users
     await client.wait_until_ready()
     
     list_of_ids = load_ids('ids.json')
